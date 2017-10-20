@@ -1,0 +1,283 @@
+html, body {
+/*  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;*/
+}
+
+body {
+display: flex;
+ justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  color: #525252;
+  padding-bottom:200px;
+}
+
+a {
+  text-decoration: none;
+}
+
+label{
+  font-size: 0.9em;
+}
+
+  span.completeCount{
+    display: block;
+    font-size: 0.6em;
+    /*color: #5ba86b;*/
+    padding-left:15px;
+
+  }
+  span.cancelledCount{
+    display: block;
+    font-size: 0.6em;
+    /*color: #c94d59;*/
+    padding-left:15px;
+    cursor: pointer;
+  }
+
+h1{
+  float: left;
+  padding: 3px 20px 3px 20px;
+  font-size:1.5em;
+
+}
+
+h2{
+  font-size: 1em;
+  text-align: left;
+  background:#dedede;
+  clear: both;
+  padding:3px;
+}
+
+
+h3{
+  float: left;
+  padding: 3px 20px 3px 20px;
+  font-size:0.9em;
+}
+
+hr{
+  clear: both;
+  border:0;
+}
+
+p.custText{
+  padding:0;
+  margin:0;
+  cursor:pointer;
+}
+
+.orderDetails{
+  clear: both;
+  font-size: 0.7em
+  color:#dddddd;
+  font-family: monospace;
+  max-height: 400px;
+  overflow: auto;
+  max-width: 900px;
+  overflow:scroll;
+  white-space: pre;
+}
+
+  .diffHeader{
+    font-weight: bold;
+    padding-top:8px !important;
+    margin:0;
+  }
+
+  .diffObj{ /*wraps a set of diffs for a given object*/
+    width:2000px;
+  }
+    .diffObj p{
+      padding-left:0px;
+      padding-bottom:0;
+      padding-top:0;
+      margin:0;
+    }
+
+    .diffAdded{
+      color: @green;
+    }
+
+    .diffEdited{
+      color: @blue;
+    }
+      .diffEditedOldVal{
+        text-decoration: line-through;
+      }
+      .diffEditedNewVal{
+      }
+
+    .diffDeleted{
+      color:@red;
+      text-decoration: line-through;
+    }
+
+    .diffArrayEdited{
+      color:#666666;
+    }
+      .diffArrayEditedDelete{
+        color:@red;
+        text-decoration: line-through;
+      }
+      .diffArrayEditedAdd{
+        color:@green;
+      }
+
+
+
+
+/*
+QUERY POPUP
+*/
+
+#queryInstructions{
+  width:600px;
+  height:400px;
+  position:absolute;
+  top:20px;
+  left:-25%;
+  margin: 30px 50%;
+  background:#f7f7f7;
+  border:1px solid #333333;
+  padding:30px;
+}
+
+  .closeButton{
+    color:blue;
+    cursor: pointer;
+    text-decoration: underline;
+    text-align: right;
+    font-size:0.8em;
+  }
+
+  .query{
+    width: 255px;
+    float:left;
+    padding:20px;
+    font-size: 0.8em;
+  }
+
+  .query textarea{
+    width:240px;
+    height:300px;
+  }
+
+
+/*
+CHARTING
+*/
+
+@red: #c94d59;    /*fulfiller edited*/
+@blue: steelblue; /*custom order*/
+@green: #5ba86b;  /*untouched order*/
+
+/*scatter of time vs. fulfllment*/
+.scatterDot{
+  fill-opacity:0.5;
+  stroke:#cccccc;
+}
+.overMax{
+ stroke:#cccccc; 
+}
+.dotUntouched{
+  fill: @green;
+  stroke:#cccccc;
+}
+.dotCust{
+  fill:@blue;
+  stroke:#cccccc;
+}
+.dotEditFul{
+  fill: @red;
+  stroke:#cccccc;
+}
+
+
+div.tooltip { 
+    position: absolute;     
+    text-align: left;     
+    /*width: 60px;          */
+    /*height: 28px;         */
+    padding: 2px;       
+    font: 12px sans-serif;    
+    background: #f7f7f7; 
+    border: 0px;    
+    border-radius: 2px; 
+    pointer-events: none;     
+}
+
+
+
+/*histogram*/
+.bar rect {
+  fill: @blue;
+}
+
+.bar text {
+  fill: @blue;
+  font: 10px sans-serif;
+}
+
+.axis{
+  font:10px sans-serif;
+}
+
+.histBar{
+  cursor:pointer;
+}
+
+.lastHistBar{
+  cursor:pointer;
+  fill:@red !important;
+}
+
+/*venn diagram*/
+g.unedited circle {
+  fill: @green;
+  fill-opacity: .5;
+  stroke: #666666;
+}
+  text.unedited{
+    fill:@green;
+  }
+
+g.editedByFulfiller circle {
+  fill: brown;
+  fill-opacity: .5;
+  stroke: #666666;
+}
+  text.editedByFulfiller{
+    fill:@red;
+  }
+
+g.userCusomized circle {
+  fill: @blue;
+  fill-opacity: .5;
+  stroke: #666666;
+}
+  text.userCusomized{
+    fill:@blue;
+  }
+
+.vennText{
+  font:12px sans-serif;
+}
+
+  text.editedByFulfillerAndCustomized{
+    fill:#ffffff;
+  }
+
+  text.inBubble{
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+
+
+
+
+

@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Fulfillment Metrics</title>
+  <link href="stylesheets/main.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+  <div class="container">
+
+
+
+    <h2>data</h2>
+    <label>select fulfillment <a href="#"  onclick="javascript:document.getElementById('queryInstructions').style.display='block'">data file</a></label> <button id="btnGetFulfillmentData">get file</button>
+    <label style="margin-left:100px;">select  <a href="#" onclick="javascript:document.getElementById('queryInstructions').style.display='block'">product file</a></label> <button id="btnGetProductData">get file</button>
+    
+    <h2>input</h2>
+    <label>tenant</label>
+    <select id="tenantSelector">
+      <option value="all">all</option>
+    </select>
+
+    <label style="margin-left:20px;">user</label>
+    <select id="userSelector">
+      <option value="all">all</option>
+    </select>
+
+    <label style="margin-left:20px;">from</label>
+    <input id="dateSelectorFrom" style="width:60px;"></input>
+    <label>to</label>
+    <input id="dateSelectorTo" style="width:60px;"></input>
+    <button id="buildButton">go</button>
+
+    <br />
+    <input id="exclPlcdChk" type="checkbox" style="margin-left:214px;" checked="checked" /><label onclick="javascript:document.querySelector('#exclPlcdChk').checked = !document.querySelector('#exclPlcdChk').checked">exclude pellucid users</label>
+
+
+    <h2>orders</h2>
+    <h1 id="orders"></h1>
+    <h1 id="charts"></h1>
+    <h1 id="pages"></h1>
+    <h1 id="books"></h1>
+
+    <h2>fulfillment time</h2>
+    <h3 id="avgFul"></h2>
+    <h3 id="medianFul"></h2>
+    <div id="histFul" style="float:right; margin-top:-10px;"></div>
+
+    <h2>untouched vs fulfiller edits vs customization</h2>
+    <div id="venn" style=""></div>
+
+    <h2>order time vs fulfillment time</h2>
+    <div id="orderFulScatter" style=""></div>
+
+    <h2>fulfiller edits</h2>
+    <h3 id="totalEdits" style="cursor:pointer;"></h2>
+    <h3 id="editsBreakdown" style="margin-top:-4px;"></h2>
+    <div id="histEdit" style="float:right; margin-top:-10px;"></div>
+    <div id="fulfillerEditDetails" class="orderDetails"></div>
+    
+   
+    <h2>user customization</h2>
+    <h3 id="totalCustomizations" style="cursor:pointer;"></h2>
+    <h3 id="customizationBreakdown" style="margin-top:-4px;"></h2>
+    <div id="histCust" style="float:right; margin-top:-10px;"></div>
+    <div id="customizationDetails" class="orderDetails"></div>
+
+    <h2>fulfillment edits and customization by product</h2>
+    <div id="editsByProduct" style=""></div>
+    <div id="editsByProductDetails" class="orderDetails"></div>
+
+
+    <div id="queryInstructions" style="display:none;">
+      <div class="closeButton" onclick="javascript:document.getElementById('queryInstructions').style.display='none'">close</div>
+      <div class="query" style="border-right:1px solid #666666">
+        <p>to generate a CSV of <b>fulfillment data</b> run something like:</p>
+        <textarea>
+select
+  t.name as tenant,
+  u.email, "firstName", "lastName", timezone,
+  ol."orderId", ol.sku, ol.name, 
+  p.type,
+  ol."reorderedFromOrderLineId",
+  ol."userOptionsValues", ol."userOptionsDefaults", ol."fulfillmentValues", ol.specifications,
+  ol."createdAt", ol."completedAt"
+from "orderLines" ol
+join orders o on o.id = ol."orderId"
+join users u on u.id = ol."createdBy"
+join tenants t on t.id = o."tenantId"
+join products p on p.id = ol."productId"
+where ol."createdAt" > '20170801'
+and o."deletedAt" is null
+order by ol."createdAt" desc
+        </textarea>
+      </div>
+
+      <div class="query">
+        <p>to generate a CSV of <b>product data</b> run something like:</p>
+        <textarea>
+select
+  p.slug,p.type,
+  p.specifications
+from products p
+where p."replacedByProductId" is null
+
+union all
+
+select 
+  p1.slug,p2.type,
+  p2.specifications
+from products p1
+left join products p2 on p2.id = p1."replacedByProductId"
+where p1."replacedByProductId" is not null
+          </textarea>
+        </div>
+
+      </div>
+
+
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
